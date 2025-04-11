@@ -126,3 +126,10 @@ Cloud Engineer & Data Enthusiast
 GitHub: [sjlewis25](https://github.com/sjlewis25)
 
 ---
+
+## 🧠 Sample Athena Query
+
+You can try out a sample query that analyzes delivery tips right here:
+
+👉 [sample_athena_query.sql](queries/sample_athena_query.sql)
+

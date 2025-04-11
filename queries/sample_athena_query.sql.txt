@@ -1,0 +1,12 @@
+-- 📊 Sample Athena Query: Tip Analysis
+SELECT
+  order_id,
+  delivery_time,
+  tip,
+  miles
+FROM
+  pizza_data
+WHERE
+  tip > 5
+ORDER BY
+  tip DESC;

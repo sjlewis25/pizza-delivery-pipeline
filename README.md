@@ -1,46 +1,54 @@
 # Pizza Delivery Data Pipeline (AWS + Terraform + Athena)
 
-This project demonstrates a full cloud-based data pipeline to analyze real-world pizza delivery data using AWS services. It highlights serverless architecture, infrastructure as code, and data analytics using SQL.
+This project demonstrates a cloud-based data pipeline for analyzing pizza delivery data using AWS. It applies infrastructure as code, serverless architecture, and SQL analytics to extract insights from real-world delivery metrics.
 
 ---
 
-## Architecture
+## Architecture Overview
 
-- **Terraform** – Infrastructure as Code (IaC) to provision AWS services
-- **AWS S3** – Raw data storage (CSV files)
-- **AWS Glue** – Cataloging the data for SQL queries
-- **AWS Athena** – Querying the data using SQL
-- **PowerShell + AWS CLI** – End-to-end automation and scripting
+This project uses the following tools and services:
+
+- **Terraform** – Infrastructure as Code to provision AWS resources
+- **AWS S3** – Storage for raw CSV data
+- **AWS Glue** – Data cataloging and schema discovery
+- **AWS Athena** – Serverless SQL querying
+- **PowerShell + AWS CLI** – Automation for data upload and query execution
+- **Python** – Used to convert Excel data to CSV format
+
+### Data Flow
+
+1. CSV file is uploaded to S3
+2. AWS Glue crawler adds it to the Data Catalog
+3. Athena is used to run SQL queries on the data
 
 ---
 
-## Data
+## Dataset Details
 
-**Source File**: `Pizza_Delivery_Analysis_.xlsx`  
-**Converted File**: `pizza_data.csv`
+- **Original File:** Pizza_Delivery_Analysis_.xlsx  
+- **Converted File:** pizza_data.csv
 
-The data includes:
+**Fields include:**
+
 - Delivery date and time
 - Delivery zone
 - Distance driven
 - Home type
 - Tip amount and percentage
-- Total earnings per delivery
+- Total earnings
 
 ---
 
-## SQL Analytics Queries
+## Sample Athena Queries
 
-### 1. **Average Tip by Delivery Zone**
+**1. Average Tip by Delivery Zone**
 ```sql
 SELECT delivery_zone, AVG(tip) AS avg_tip
 FROM pizza_data
 GROUP BY delivery_zone;
 ```
 
----
-
-### 2. **Daily Tip Trends**
+**2. Daily Tip Trends**
 ```sql
 SELECT date, ROUND(AVG(tip), 2) AS avg_tip, COUNT(*) AS deliveries
 FROM pizza_data
@@ -48,9 +56,7 @@ GROUP BY date
 ORDER BY date;
 ```
 
----
-
-### 3. **Miles vs Tip Percentage**
+**3. Miles vs Tip Percentage**
 ```sql
 SELECT 
   ROUND(distance_miles, 1) AS distance_group,
@@ -62,9 +68,7 @@ GROUP BY 1
 ORDER BY distance_group;
 ```
 
----
-
-### 4. **Earnings by Home Type**
+**4. Earnings by Home Type**
 ```sql
 SELECT 
   TRIM(home_type) AS home_type,
@@ -81,40 +85,54 @@ ORDER BY avg_earnings DESC;
 
 ## Key Insights
 
-- Hotels offer the highest per-order payouts, though rare.
-- Houses generated the most revenue overall.
-- Tip percentage increases slightly with delivery distance.
-- Week-to-week tip trends vary significantly by date.
+- Houses accounted for the most total revenue.
+- Longer distances showed a slight increase in tip percentage.
+- Tip trends fluctuated significantly across different days.
 
 ---
 
-## How to Deploy
+## Deployment Instructions
 
-1. Clone the repo:
+**1. Clone the repository**
 ```bash
 git clone https://github.com/sjlewis25/pizza-delivery-pipeline
+cd pizza-delivery-pipeline
 ```
 
-2. Update the Terraform `main.tf` with your region and S3 bucket.
+**2. Update Terraform configuration**  
+Edit `main.tf` to match your AWS region and S3 bucket name.
 
-3. Run:
+**3. Deploy infrastructure**
 ```bash
 terraform init
 terraform apply -auto-approve
 ```
 
-4. Upload `pizza_data.csv` to your S3 bucket's `/raw` folder.
+**4. Upload your data**  
+Place `pizza_data.csv` into the `/raw` folder of the S3 bucket.
 
-5. Use the Athena queries above to extract insights.
+**5. Query with Athena**  
+Run the provided SQL queries in the Athena console or CLI.
 
 ---
 
-## Tools Used
+## Security & Cost Considerations
+
+- S3 bucket uses default encryption (can be customized).
+- IAM roles follow least-privilege best practices.
+- Cleanup is recommended after use:
+```bash
+terraform destroy -auto-approve
+```
+
+---
+
+## Tools & Technologies
 
 - AWS S3, Glue, Athena
 - Terraform
 - PowerShell
-- Python (for Excel to CSV conversion)
+- Python
 - SQL
 
 ---
@@ -123,13 +141,13 @@ terraform apply -auto-approve
 
 **Steven Lewis**  
 Cloud Engineer & Data Enthusiast  
-GitHub: [sjlewis25](https://github.com/sjlewis25)
+GitHub: [https://github.com/sjlewis25](https://github.com/sjlewis25)
 
 ---
 
-## Sample Athena Query
+## Related Files
 
-You can try out a sample query that analyzes delivery tips right here:
-
-[sample_athena_query.sql](queries/sample_athena_query.sql)
+- [`main.tf`](./main.tf)
+- [`pizza_data.csv`](./pizza_data.csv)
+- [`sample_athena_query.sql`](./sample_athena_query.sql)
 

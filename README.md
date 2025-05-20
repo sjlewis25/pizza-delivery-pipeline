@@ -1,10 +1,10 @@
-# 🍕 Pizza Delivery Data Pipeline (AWS + Terraform + Athena)
+# Pizza Delivery Data Pipeline (AWS + Terraform + Athena)
 
 This project demonstrates a full cloud-based data pipeline to analyze real-world pizza delivery data using AWS services. It highlights serverless architecture, infrastructure as code, and data analytics using SQL.
 
 ---
 
-## 🧱 Architecture
+## Architecture
 
 - **Terraform** – Infrastructure as Code (IaC) to provision AWS services
 - **AWS S3** – Raw data storage (CSV files)
@@ -14,7 +14,7 @@ This project demonstrates a full cloud-based data pipeline to analyze real-world
 
 ---
 
-## 🗂 Data
+## Data
 
 **Source File**: `Pizza_Delivery_Analysis_.xlsx`  
 **Converted File**: `pizza_data.csv`
@@ -29,7 +29,7 @@ The data includes:
 
 ---
 
-## 📊 SQL Analytics Queries
+## SQL Analytics Queries
 
 ### 1. **Average Tip by Delivery Zone**
 ```sql
@@ -79,7 +79,7 @@ ORDER BY avg_earnings DESC;
 
 ---
 
-## 🧠 Key Insights
+## Key Insights
 
 - Hotels offer the highest per-order payouts, though rare.
 - Houses generated the most revenue overall.
@@ -88,7 +88,7 @@ ORDER BY avg_earnings DESC;
 
 ---
 
-## 🚀 How to Deploy
+## How to Deploy
 
 1. Clone the repo:
 ```bash
@@ -109,7 +109,7 @@ terraform apply -auto-approve
 
 ---
 
-## 🧰 Tools Used
+## Tools Used
 
 - AWS S3, Glue, Athena
 - Terraform
@@ -119,7 +119,7 @@ terraform apply -auto-approve
 
 ---
 
-## 🧑‍💻 Author
+## Author
 
 **Steven Lewis**  
 Cloud Engineer & Data Enthusiast  
@@ -127,9 +127,9 @@ GitHub: [sjlewis25](https://github.com/sjlewis25)
 
 ---
 
-## 🧠 Sample Athena Query
+## Sample Athena Query
 
 You can try out a sample query that analyzes delivery tips right here:
 
-👉 [sample_athena_query.sql](queries/sample_athena_query.sql)
+[sample_athena_query.sql](queries/sample_athena_query.sql)
 

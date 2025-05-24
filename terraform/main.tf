@@ -1,19 +1,59 @@
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
 
 resource "aws_s3_bucket" "data_bucket" {
-  bucket        = "pizza-delivery-dataline-project-25"
+  bucket        = var.data_bucket_name
   force_destroy = true
+
+  tags = {
+    Project     = "Pizza Delivery Data Pipeline"
+    Environment = "Dev"
+    Owner       = "Steve Lewis"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "archive_csv" {
+  bucket = aws_s3_bucket.data_bucket.id
+
+  rule {
+    id     = "archive-old-csvs"
+    status = "Enabled"
+
+    filter {
+      prefix = "raw/"
+    }
+
+    transition {
+      days          = 30
+      storage_class = "GLACIER"
+    }
+
+    expiration {
+      days = 365
+    }
+  }
 }
 
 resource "aws_s3_bucket" "query_results" {
-  bucket        = "pizza-delivery-athena-results-25"
+  bucket        = var.query_results_bucket_name
   force_destroy = true
+
+  tags = {
+    Project     = "Pizza Delivery Data Pipeline"
+    Environment = "Dev"
+    Owner       = "Steve Lewis"
+  }
 }
 
 resource "aws_glue_catalog_database" "pizza_db" {
-  name = "pizza_db"
+  name = var.glue_db_name
+
+  tags = {
+    Project     = "Pizza Delivery Data Pipeline"
+    Environment = "Dev"
+    Owner       = "Steve Lewis"
+  }
 }
 
 resource "aws_glue_catalog_table" "pizza_table" {
@@ -83,17 +123,26 @@ resource "aws_glue_catalog_table" "pizza_table" {
   }
 
   parameters = {
-    "classification"          = "csv"
-    "skip.header.line.count"  = "1"
+    "classification"         = "csv"
+    "skip.header.line.count" = "1"
   }
+
+  # (We'll fix tags here next)
 }
 
 resource "aws_athena_workgroup" "pizza_workgroup" {
-  name = "pizza_workgroup"
+  name = var.athena_workgroup_name
 
   configuration {
     result_configuration {
       output_location = "s3://${aws_s3_bucket.query_results.bucket}/athena-results/"
     }
   }
+
+  tags = {
+    Project     = "Pizza Delivery Data Pipeline"
+    Environment = "Dev"
+    Owner       = "Steve Lewis"
+  }
 }
+

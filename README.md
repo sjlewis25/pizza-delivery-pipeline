@@ -6,14 +6,15 @@ This project demonstrates a cloud-based data pipeline for analyzing pizza delive
 
 ## Architecture Overview
 
-This project uses the following tools and services:
+This project uses Terraform to deploy a full AWS-based analytics pipeline:
 
-- **Terraform** – Infrastructure as Code to provision AWS resources
-- **AWS S3** – Storage for raw CSV data
-- **AWS Glue** – Data cataloging and schema discovery
-- **AWS Athena** – Serverless SQL querying
-- **PowerShell + AWS CLI** – Automation for data upload and query execution
-- **Python** – Used to convert Excel data to CSV format
+- **CSV data** is uploaded to an S3 bucket.
+- **Glue** catalogs the data for SQL use.
+- **Athena** queries the data.
+- **Results** are stored in a separate S3 bucket.
+- All infrastructure is managed with **Terraform**.
+
+![Architecture Diagram](./architecture-diagram.png)
 
 ### Data Flow
 
